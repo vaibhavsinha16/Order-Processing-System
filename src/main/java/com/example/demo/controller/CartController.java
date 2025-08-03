@@ -25,8 +25,8 @@ public class CartController {
     }
 
     @GetMapping
-    public ResponseEntity<CartDTO> getCart(@RequestHeader("X-Auth-Token") String token) {
-        Long userId = authController.getUserIdFromToken(token);
+    public ResponseEntity<CartDTO> getCart(@RequestHeader("Authorization") String authHeader) {
+        Long userId = authController.getUserIdFromToken(authHeader);
         if (userId == null) {
             return ResponseEntity.badRequest().build();
         }
@@ -38,11 +38,11 @@ public class CartController {
 
     @PostMapping("/add")
     public ResponseEntity<CartDTO> addToCart(
-            @RequestHeader("X-Auth-Token") String token,
+            @RequestHeader("Authorization") String authHeader,
             @RequestParam Long productId,
             @RequestParam(defaultValue = "1") Integer quantity) {
         
-        Long userId = authController.getUserIdFromToken(token);
+        Long userId = authController.getUserIdFromToken(authHeader);
         if (userId == null) {
             return ResponseEntity.badRequest().build();
         }
@@ -62,11 +62,11 @@ public class CartController {
 
     @PutMapping("/update")
     public ResponseEntity<CartDTO> updateCartItem(
-            @RequestHeader("X-Auth-Token") String token,
+            @RequestHeader("Authorization") String authHeader,
             @RequestParam Long productId,
             @RequestParam Integer quantity) {
         
-        Long userId = authController.getUserIdFromToken(token);
+        Long userId = authController.getUserIdFromToken(authHeader);
         if (userId == null) {
             return ResponseEntity.badRequest().build();
         }
@@ -82,10 +82,10 @@ public class CartController {
 
     @DeleteMapping("/remove")
     public ResponseEntity<CartDTO> removeFromCart(
-            @RequestHeader("X-Auth-Token") String token,
+            @RequestHeader("Authorization") String authHeader,
             @RequestParam Long productId) {
         
-        Long userId = authController.getUserIdFromToken(token);
+        Long userId = authController.getUserIdFromToken(authHeader);
         if (userId == null) {
             return ResponseEntity.badRequest().build();
         }
@@ -100,8 +100,8 @@ public class CartController {
     }
 
     @DeleteMapping("/clear")
-    public ResponseEntity<Void> clearCart(@RequestHeader("X-Auth-Token") String token) {
-        Long userId = authController.getUserIdFromToken(token);
+    public ResponseEntity<Void> clearCart(@RequestHeader("Authorization") String authHeader) {
+        Long userId = authController.getUserIdFromToken(authHeader);
         if (userId == null) {
             return ResponseEntity.badRequest().build();
         }

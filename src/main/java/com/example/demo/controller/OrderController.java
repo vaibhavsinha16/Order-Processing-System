@@ -39,8 +39,8 @@ public class OrderController {
 
     @PostMapping
     @Operation(summary = "Create a new order")
-    public ResponseEntity<OrderDTO> createOrder(@RequestHeader("X-Auth-Token") String token, @RequestBody OrderDTO orderDTO) {
-        Long userId = authController.getUserIdFromToken(token);
+    public ResponseEntity<OrderDTO> createOrder(@RequestHeader("Authorization") String authHeader, @RequestBody OrderDTO orderDTO) {
+        Long userId = authController.getUserIdFromToken(authHeader);
         if (userId == null) {
             return ResponseEntity.badRequest().build();
         }
@@ -59,8 +59,8 @@ public class OrderController {
 
     @GetMapping("/search/{id}")
     @Operation(summary = "Search for user's own order by ID")
-    public ResponseEntity<OrderDTO> searchOrderById(@RequestHeader("X-Auth-Token") String token, @PathVariable Long id) {
-        Long userId = authController.getUserIdFromToken(token);
+    public ResponseEntity<OrderDTO> searchOrderById(@RequestHeader("Authorization") String authHeader, @PathVariable Long id) {
+        Long userId = authController.getUserIdFromToken(authHeader);
         if (userId == null) {
             return ResponseEntity.badRequest().build();
         }
@@ -78,8 +78,8 @@ public class OrderController {
 
     @GetMapping
     @Operation(summary = "List orders for the current user, optionally filter by status")
-    public ResponseEntity<List<OrderDTO>> listOrders(@RequestHeader("X-Auth-Token") String token, @RequestParam(required = false) OrderStatus status) {
-        Long userId = authController.getUserIdFromToken(token);
+    public ResponseEntity<List<OrderDTO>> listOrders(@RequestHeader("Authorization") String authHeader, @RequestParam(required = false) OrderStatus status) {
+        Long userId = authController.getUserIdFromToken(authHeader);
         if (userId == null) {
             return ResponseEntity.badRequest().build();
         }

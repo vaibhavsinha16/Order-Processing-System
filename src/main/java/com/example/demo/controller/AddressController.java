@@ -24,16 +24,16 @@ public class AddressController {
     }
 
     @GetMapping
-    public List<Address> list(@RequestHeader("X-Auth-Token") String token) {
-        Long userId = authController.getUserIdFromToken(token);
+    public List<Address> list(@RequestHeader("Authorization") String authHeader) {
+        Long userId = authController.getUserIdFromToken(authHeader);
         if (userId == null) return List.of();
         User user = userRepository.findById(userId).orElse(null);
         return user == null ? List.of() : addressRepository.findByUser(user);
     }
 
     @PostMapping
-    public Address add(@RequestHeader("X-Auth-Token") String token, @RequestBody Address address) {
-        Long userId = authController.getUserIdFromToken(token);
+    public Address add(@RequestHeader("Authorization") String authHeader, @RequestBody Address address) {
+        Long userId = authController.getUserIdFromToken(authHeader);
         if (userId == null) throw new RuntimeException("Invalid token");
         User user = userRepository.findById(userId).orElse(null);
         if (user == null) throw new RuntimeException("User not found");

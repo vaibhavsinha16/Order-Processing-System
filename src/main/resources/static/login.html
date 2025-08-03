@@ -73,6 +73,8 @@ loginForm.onsubmit = async e => {
     const data = await res.json();
     if (data.token) {
         localStorage.setItem('token', data.token);
+        localStorage.setItem('username', data.username);
+        localStorage.setItem('userId', data.userId);
         window.location.href = '/index.html';
     } else {
         document.getElementById('login-error').textContent = data.error || 'Login failed';
@@ -90,12 +92,15 @@ registerForm.onsubmit = async e => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, email, password })
     });
-    const text = await res.text();
-    if (text.includes('success')) {
+    const data = await res.json();
+    if (res.ok) {
         alert('Registration successful! Please login.');
-        // No toggleBtn to click, so this line is removed
+        // Switch back to login form
+        loginForm.style.display = '';
+        registerForm.style.display = 'none';
+        document.getElementById('form-title').textContent = 'Login';
     } else {
-        document.getElementById('register-error').textContent = text;
+        document.getElementById('register-error').textContent = data.error || 'Registration failed';
     }
 };
 </script>

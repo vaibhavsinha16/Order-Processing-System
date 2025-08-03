@@ -20,6 +20,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.context.annotation.Import;
+import com.example.demo.config.JwtConfig;
+import com.example.demo.util.JwtUtil;
 
 import java.util.Collections;
 import java.util.Optional;
@@ -32,6 +35,7 @@ import static org.mockito.Mockito.when;
 @TestPropertySource(properties = {
     "spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration"
 })
+@Import({JwtConfig.class, JwtUtil.class})
 class OrderControllerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -63,11 +67,11 @@ class OrderControllerTest {
         order.setCustomerName("John");
         
         // Mock authentication
-        when(authController.getUserIdFromToken("valid-token")).thenReturn(1L);
+        when(authController.getUserIdFromToken("Bearer valid-token")).thenReturn(1L);
         when(orderService.createOrder(any(Order.class), eq(1L), eq(1L))).thenReturn(order);
         
         mockMvc.perform(MockMvcRequestBuilders.post("/orders")
-                .header("X-Auth-Token", "valid-token")
+                .header("Authorization", "Bearer valid-token")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(orderDTO)))
                 .andExpect(MockMvcResultMatchers.status().isOk());
@@ -99,11 +103,11 @@ class OrderControllerTest {
         order.setId(1L);
         
         // Mock authentication
-        when(authController.getUserIdFromToken("valid-token")).thenReturn(1L);
+        when(authController.getUserIdFromToken("Bearer valid-token")).thenReturn(1L);
         when(orderService.listOrdersByUser(eq(1L), any())).thenReturn(Collections.singletonList(order));
         
         mockMvc.perform(MockMvcRequestBuilders.get("/orders")
-                .header("X-Auth-Token", "valid-token"))
+                .header("Authorization", "Bearer valid-token"))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
@@ -123,11 +127,11 @@ class OrderControllerTest {
         order.setId(1L);
         
         // Mock authentication
-        when(authController.getUserIdFromToken("valid-token")).thenReturn(1L);
+        when(authController.getUserIdFromToken("Bearer valid-token")).thenReturn(1L);
         when(orderService.getOrderByIdAndUser(eq(1L), eq(1L))).thenReturn(Optional.of(order));
         
         mockMvc.perform(MockMvcRequestBuilders.get("/orders/search/1")
-                .header("X-Auth-Token", "valid-token"))
+                .header("Authorization", "Bearer valid-token"))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
 } 

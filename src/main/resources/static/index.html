@@ -3,526 +3,1117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shop - Order Processing System</title>
-    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+    <title>ProShop - Online Shopping</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: 'Roboto', Arial, sans-serif;
-            margin: 0;
-            background: #f1f3f6;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
         }
-        header {
-            background: #2874f0;
-            color: #fff;
-            padding: 1rem 2rem;
+
+        /* Header Styles */
+        .header {
+            background: linear-gradient(135deg, #232f3e 0%, #37475a 100%);
+            color: white;
+            padding: 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-top {
+            background: #131921;
+            padding: 8px 0;
+            font-size: 12px;
+        }
+
+        .header-main {
+            padding: 12px 0;
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            gap: 20px;
         }
-        header h1 {
-            margin: 0;
-            font-size: 2rem;
-            letter-spacing: 1px;
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: #ff9900;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-        .cart-btn {
-            background: #fff;
-            color: #2874f0;
+
+        .search-container {
+            flex: 1;
+            max-width: 600px;
+            position: relative;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 12px 50px 12px 16px;
             border: none;
-            border-radius: 20px;
-            padding: 0.5rem 1.2rem;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 1rem;
-            display: flex;
-            align-items: center;
-        }
-        .cart-btn span {
-            margin-left: 0.5rem;
-            background: #ff6161;
-            color: #fff;
-            border-radius: 50%;
-            padding: 0.2rem 0.6rem;
-            font-size: 0.9rem;
-        }
-        .main {
-            display: flex;
-            max-width: 1200px;
-            margin: 2rem auto;
-            gap: 2rem;
-        }
-        .products {
-            flex: 3;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 2rem;
-        }
-        .product {
-            background: #fff;
             border-radius: 8px;
-            box-shadow: 0 2px 8px #0001;
-            padding: 1rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            transition: box-shadow 0.2s;
+            font-size: 16px;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
-        .product:hover {
-            box-shadow: 0 4px 16px #0002;
-        }
-        .product img {
-            width: 120px;
-            height: 120px;
-            object-fit: contain;
-            margin-bottom: 1rem;
-        }
-        .product-name {
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-            text-align: center;
-        }
-        .product-price {
-            color: #388e3c;
-            font-size: 1.1rem;
-            margin-bottom: 1rem;
-        }
-        .add-btn {
-            background: #ff9f00;
-            color: #fff;
+
+        .search-btn {
+            position: absolute;
+            right: 4px;
+            top: 4px;
+            background: #ff9900;
             border: none;
-            border-radius: 4px;
-            padding: 0.5rem 1rem;
-            font-weight: bold;
+            border-radius: 6px;
+            padding: 8px 16px;
+            color: white;
             cursor: pointer;
             transition: background 0.2s;
         }
-        .add-btn:hover {
-            background: #fb641b;
+
+        .search-btn:hover {
+            background: #e68a00;
         }
-        .cart {
-            flex: 1;
-            background: #fff;
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .cart-btn {
+            background: #ff9900;
+            color: white;
+            border: none;
             border-radius: 8px;
-            box-shadow: 0 2px 8px #0001;
-            padding: 1.5rem 1rem;
-            min-width: 260px;
-            max-width: 320px;
-            position: sticky;
-            top: 2rem;
+            padding: 10px 16px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.2s;
+        }
+
+        .cart-btn:hover {
+            background: #e68a00;
+        }
+
+        .cart-count {
+            background: #e53e3e;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .auth-btn {
+            background: transparent;
+            color: white;
+            border: 1px solid #ff9900;
+            border-radius: 6px;
+            padding: 8px 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .auth-btn:hover {
+            background: #ff9900;
+        }
+
+        /* Navigation */
+        .nav {
+            background: #232f3e;
+            padding: 8px 0;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .nav-item {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: background 0.2s;
+            cursor: pointer;
+        }
+
+        .nav-item:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .nav-item.active {
+            background: #ff9900;
+            color: white;
+        }
+
+        /* Main Content */
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 250px 1fr 300px;
+            gap: 30px;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             height: fit-content;
+            position: sticky;
+            top: 120px;
         }
-        .cart h2 {
-            margin-top: 0;
-            font-size: 1.2rem;
-            color: #2874f0;
+
+        .sidebar h3 {
+            margin-bottom: 16px;
+            color: #232f3e;
+            font-size: 18px;
+            font-weight: 600;
         }
-        .cart-list {
+
+        .category-list {
             list-style: none;
-            padding: 0;
-            margin: 1rem 0;
         }
-        .cart-list li {
+
+        .category-item {
+            padding: 10px 12px;
+            margin-bottom: 4px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 14px;
+        }
+
+        .category-item:hover {
+            background: #f0f0f0;
+            color: #ff9900;
+        }
+
+        .category-item.active {
+            background: #ff9900;
+            color: white;
+        }
+
+        /* Products Grid */
+        .products-section {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .section-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 0.7rem;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 0.5rem;
+            margin-bottom: 24px;
         }
-        .cart-list .item-name {
-            flex: 2;
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #232f3e;
         }
-        .cart-list .item-qty {
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .product-card {
+            background: white;
+            border: 1px solid #e1e5e9;
+            border-radius: 12px;
+            padding: 16px;
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            border-color: #ff9900;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+
+        .product-category {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .product-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #232f3e;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .product-description {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 12px;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .product-price {
+            font-size: 20px;
+            font-weight: 700;
+            color: #232f3e;
+            margin-bottom: 12px;
+        }
+
+        .product-stock {
+            font-size: 12px;
+            color: #059669;
+            margin-bottom: 12px;
+        }
+
+        .add-to-cart-btn {
+            width: 100%;
+            background: #ff9900;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .add-to-cart-btn:hover {
+            background: #e68a00;
+        }
+
+        .add-to-cart-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        /* Cart Sidebar */
+        .cart-sidebar {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            height: fit-content;
+            position: sticky;
+            top: 120px;
+        }
+
+        .cart-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #232f3e;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .cart-items {
+            margin-bottom: 20px;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid #e1e5e9;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .cart-item-image {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+
+        .cart-item-details {
             flex: 1;
-            text-align: center;
         }
-        .cart-list .item-price {
-            flex: 1;
-            text-align: right;
+
+        .cart-item-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: #232f3e;
+            margin-bottom: 4px;
         }
-        .cart-list .remove-btn {
+
+        .cart-item-price {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .cart-item-quantity {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .remove-item-btn {
             background: none;
             border: none;
-            color: #ff6161;
-            font-size: 1.1rem;
+            color: #e53e3e;
             cursor: pointer;
-            margin-left: 0.5rem;
+            font-size: 16px;
+            padding: 4px;
         }
+
         .cart-total {
-            font-weight: bold;
+            font-size: 18px;
+            font-weight: 600;
+            color: #232f3e;
             text-align: right;
-            margin-top: 1rem;
-            font-size: 1.1rem;
+            margin-bottom: 16px;
+            padding-top: 16px;
+            border-top: 2px solid #e1e5e9;
         }
+
         .checkout-btn {
             width: 100%;
-            background: #2874f0;
-            color: #fff;
+            background: #ff9900;
+            color: white;
             border: none;
-            border-radius: 4px;
-            padding: 0.7rem 0;
-            font-size: 1rem;
-            font-weight: bold;
-            margin-top: 1.5rem;
+            border-radius: 8px;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: 600;
             cursor: pointer;
             transition: background 0.2s;
         }
+
         .checkout-btn:hover {
-            background: #0059b2;
+            background: #e68a00;
         }
+
+        .checkout-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        /* Address Section */
+        .address-section {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #e1e5e9;
+        }
+
+        .address-select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            margin-bottom: 12px;
+        }
+
+        .add-address-btn {
+            width: 100%;
+            background: #232f3e;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 10px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .add-address-btn:hover {
+            background: #37475a;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .main-container {
+                grid-template-columns: 200px 1fr 280px;
+                gap: 20px;
+            }
+        }
+
         @media (max-width: 900px) {
-            .main { flex-direction: column; }
-            .cart { max-width: 100%; min-width: 0; position: static; }
+            .main-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .sidebar, .cart-sidebar {
+                position: static;
+            }
+            
+            .header-container {
+                flex-wrap: wrap;
+            }
+            
+            .search-container {
+                order: 3;
+                max-width: 100%;
+                margin-top: 10px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-container {
+                padding: 0 10px;
+            }
+            
+            .main-container {
+                padding: 10px;
+            }
+        }
+
+        /* Loading States */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #ff9900;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Empty States */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+
+        .empty-state i {
+            font-size: 48px;
+            color: #ccc;
+            margin-bottom: 16px;
         }
     </style>
 </head>
 <body>
-<header>
-    <div style="display: flex; align-items: center; gap: 2rem;">
-        <h1>Shop</h1>
-        <button id="my-orders-btn" onclick="window.location.href='/my-orders.html'" style="display: none;">My Orders</button>
-    </div>
-    <div id="auth-buttons"></div>
-</header>
-<div class="main">
-    <div class="products" id="products">
-        <!-- Product cards will be injected here -->
-    </div>
-    <aside class="cart">
-        <h2>Your Cart</h2>
-        <ul class="cart-list" id="cart-list"></ul>
-        <div class="cart-total" id="cart-total">Total: $0.00</div>
-        <button class="checkout-btn" id="checkout-btn" disabled>Checkout</button>
-        <div id="address-section"></div>
-    </aside>
-</div>
-<script>
-// Global variables
-let products = [];
-let addresses = [];
-let selectedAddressId = null;
-let currentUser = null;
-let cart = null; // Will store cart data from backend
+    <!-- Header -->
+    <header class="header">
+        <div class="header-top">
+            <div class="header-container">
+                <span>Free shipping on orders over $50</span>
+            </div>
+        </div>
+        <div class="header-main">
+            <div class="header-container">
+                <a href="/" class="logo">
+                    <i class="fas fa-shopping-bag"></i>
+                    ProShop
+                </a>
+                
+                <div class="search-container">
+                    <input type="text" class="search-box" id="search-input" placeholder="Search for products...">
+                    <button class="search-btn" onclick="searchProducts()">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                
+                <div class="header-actions">
+                    <button class="cart-btn" onclick="toggleCart()">
+                        <i class="fas fa-shopping-cart"></i>
+                        Cart
+                        <span class="cart-count" id="cart-count">0</span>
+                    </button>
+                    <div id="auth-buttons"></div>
+                </div>
+            </div>
+        </div>
+        
+        <nav class="nav">
+            <div class="nav-container">
+                <span class="nav-item active" onclick="showAllProducts()">All Products</span>
+                <span class="nav-item" onclick="showDeals()">Today's Deals</span>
+                <span class="nav-item" onclick="showNewArrivals()">New Arrivals</span>
+                <span class="nav-item" onclick="window.location.href='/my-orders.html'">My Orders</span>
+            </div>
+        </nav>
+    </header>
 
-// Initialize the application
-async function initializeApp() {
-    await fetchProducts();
-    await fetchUserInfo();
-    renderAuthButtons();
-    
-    if (localStorage.getItem('token')) {
-        await fetchAddresses();
-        await fetchCart(); // Fetch cart from backend
-    }
-    
-    renderCart();
-}
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h3>Categories</h3>
+            <ul class="category-list" id="category-list">
+                <li class="category-item active" onclick="filterByCategory('all')">All Categories</li>
+                <!-- Categories will be loaded here -->
+            </ul>
+        </aside>
 
-async function fetchProducts() {
-    try {
-        const res = await fetch('/products');
-        if (res.ok) {
-            products = await res.json();
+        <!-- Products Section -->
+        <main class="products-section">
+            <div class="section-header">
+                <h1 class="section-title" id="section-title">All Products</h1>
+                <div id="product-count"></div>
+            </div>
+            
+            <div class="products-grid" id="products-grid">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Loading products...</p>
+                </div>
+            </div>
+        </main>
+
+        <!-- Cart Sidebar -->
+        <aside class="cart-sidebar" id="cart-sidebar">
+            <h2 class="cart-title">
+                <i class="fas fa-shopping-cart"></i>
+                Your Cart
+            </h2>
+            
+            <div class="cart-items" id="cart-items">
+                <div class="empty-state">
+                    <i class="fas fa-shopping-cart"></i>
+                    <p>Your cart is empty</p>
+                </div>
+            </div>
+            
+            <div class="cart-total" id="cart-total">Total: $0.00</div>
+            
+            <button class="checkout-btn" id="checkout-btn" disabled>Checkout</button>
+            
+            <div class="address-section" id="address-section"></div>
+        </aside>
+    </div>
+
+    <script>
+        // Global variables
+        let products = [];
+        let categories = [];
+        let currentCategory = 'all';
+        let addresses = [];
+        let selectedAddressId = null;
+        let currentUser = null;
+        let cart = null;
+
+        // Initialize the application
+        async function initializeApp() {
+            await Promise.all([
+                fetchProducts(),
+                fetchCategories(),
+                fetchUserInfo()
+            ]);
+            
+            renderAuthButtons();
+            renderCategories();
+            renderProducts();
+            
+            if (localStorage.getItem('token')) {
+                await Promise.all([
+                    fetchAddresses(),
+                    fetchCart()
+                ]);
+            }
+            
+            renderCart();
+        }
+
+        // Fetch data functions
+        async function fetchProducts() {
+            try {
+                const res = await fetch('/products');
+                if (res.ok) {
+                    products = await res.json();
+                }
+            } catch (error) {
+                console.error('Failed to fetch products:', error);
+            }
+        }
+
+        async function fetchCategories() {
+            try {
+                const res = await fetch('/products/categories');
+                if (res.ok) {
+                    categories = await res.json();
+                }
+            } catch (error) {
+                console.error('Failed to fetch categories:', error);
+            }
+        }
+
+        async function fetchUserInfo() {
+            if (localStorage.getItem('token')) {
+                try {
+                    const res = await fetch('/auth/profile', {
+                        headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
+                    });
+                    if (res.ok) {
+                        currentUser = await res.json();
+                    }
+                } catch (error) {
+                    console.error('Failed to fetch user info:', error);
+                }
+            }
+        }
+
+        async function fetchAddresses() {
+            if (!localStorage.getItem('token')) return;
+            try {
+                const res = await fetch('/addresses', {
+                    headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
+                });
+                if (res.ok) {
+                    addresses = await res.json();
+                    renderAddresses();
+                }
+            } catch (error) {
+                console.error('Failed to fetch addresses:', error);
+            }
+        }
+
+        async function fetchCart() {
+            if (!localStorage.getItem('token')) return;
+            try {
+                const res = await fetch('/cart', {
+                    headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
+                });
+                if (res.ok) {
+                    cart = await res.json();
+                    renderCart();
+                }
+            } catch (error) {
+                console.error('Failed to fetch cart:', error);
+            }
+        }
+
+        // Render functions
+        function renderCategories() {
+            const categoryList = document.getElementById('category-list');
+            const allCategoriesItem = categoryList.querySelector('.category-item');
+            categoryList.innerHTML = '';
+            categoryList.appendChild(allCategoriesItem);
+            
+            categories.forEach(category => {
+                const li = document.createElement('li');
+                li.className = 'category-item';
+                li.textContent = category;
+                li.onclick = () => filterByCategory(category);
+                categoryList.appendChild(li);
+            });
+        }
+
+        function renderProducts() {
+            const productsGrid = document.getElementById('products-grid');
+            const filteredProducts = currentCategory === 'all' 
+                ? products 
+                : products.filter(p => p.category === currentCategory);
+            
+            document.getElementById('product-count').textContent = `${filteredProducts.length} products`;
+            
+            if (filteredProducts.length === 0) {
+                productsGrid.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-box-open"></i>
+                        <p>No products found in this category</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            productsGrid.innerHTML = filteredProducts.map(product => `
+                <div class="product-card">
+                    <img src="${product.imageUrl}" alt="${product.name}" class="product-image" 
+                         onerror="this.src='https://via.placeholder.com/300x200?text=Product+Image'">
+                    <div class="product-category">${product.category || 'Uncategorized'}</div>
+                    <h3 class="product-name">${product.name}</h3>
+                    <p class="product-description">${product.description || 'No description available'}</p>
+                    <div class="product-price">$${product.price.toFixed(2)}</div>
+                    <div class="product-stock">${(product.stockQuantity || 0) > 0 ? `${product.stockQuantity} in stock` : 'Out of stock'}</div>
+                    <button class="add-to-cart-btn" onclick="addToCart(${product.id})" 
+                            ${(product.stockQuantity || 0) <= 0 ? 'disabled' : ''}>
+                        ${(product.stockQuantity || 0) > 0 ? 'Add to Cart' : 'Out of Stock'}
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function renderCart() {
+            const cartItems = document.getElementById('cart-items');
+            const cartCount = document.getElementById('cart-count');
+            const cartTotal = document.getElementById('cart-total');
+            const checkoutBtn = document.getElementById('checkout-btn');
+            
+            const items = cart ? cart.items : [];
+            const total = cart ? cart.total : 0;
+            
+            cartCount.textContent = items.length;
+            
+            if (items.length === 0) {
+                cartItems.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-shopping-cart"></i>
+                        <p>Your cart is empty</p>
+                    </div>
+                `;
+            } else {
+                cartItems.innerHTML = items.map(item => `
+                    <div class="cart-item">
+                        <img src="${item.productImageUrl || 'https://via.placeholder.com/50x50?text=Product'}" 
+                             alt="${item.productName}" class="cart-item-image">
+                        <div class="cart-item-details">
+                            <div class="cart-item-name">${item.productName}</div>
+                            <div class="cart-item-price">$${item.subtotal.toFixed(2)}</div>
+                            <div class="cart-item-quantity">Qty: ${item.quantity}</div>
+                        </div>
+                        <button class="remove-item-btn" onclick="removeFromCart(${item.productId})">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                `).join('');
+            }
+            
+            cartTotal.textContent = `Total: $${total.toFixed(2)}`;
+            
+            // Update checkout button
+            const isLoggedIn = localStorage.getItem('token');
+            const hasItems = items.length > 0;
+            const hasAddress = selectedAddressId && addresses.length > 0;
+            
+            if (!isLoggedIn) {
+                checkoutBtn.textContent = 'Login to Checkout';
+                checkoutBtn.disabled = false;
+                checkoutBtn.onclick = () => window.location.href = '/login.html';
+            } else if (!hasItems) {
+                checkoutBtn.textContent = 'Add Items to Cart';
+                checkoutBtn.disabled = true;
+                checkoutBtn.onclick = null;
+            } else if (!hasAddress) {
+                checkoutBtn.textContent = 'Add Address to Checkout';
+                checkoutBtn.disabled = false;
+                checkoutBtn.onclick = showAddAddress;
+            } else {
+                checkoutBtn.textContent = 'Checkout';
+                checkoutBtn.disabled = false;
+                checkoutBtn.onclick = checkout;
+            }
+        }
+
+        function renderAddresses() {
+            const addressSection = document.getElementById('address-section');
+            if (!addressSection) return;
+            
+            let html = '<h4 style="margin-bottom: 12px; color: #232f3e;">Delivery Address</h4>';
+            html += '<select class="address-select" id="address-select">';
+            
+            if (addresses.length > 0) {
+                html += addresses.map(a => `<option value="${a.id}">${a.street}, ${a.city}</option>`).join('');
+                selectedAddressId = addresses[0].id;
+            } else {
+                html += '<option value="">No addresses available</option>';
+                selectedAddressId = null;
+            }
+            
+            html += '</select>';
+            html += '<button class="add-address-btn" onclick="showAddAddress()">Add New Address</button>';
+            
+            addressSection.innerHTML = html;
+            
+            const select = document.getElementById('address-select');
+            if (select) {
+                select.onchange = e => {
+                    selectedAddressId = Number(e.target.value);
+                    renderCart();
+                };
+                if (selectedAddressId) {
+                    select.value = selectedAddressId;
+                }
+            }
+        }
+
+        function renderAuthButtons() {
+            const div = document.getElementById('auth-buttons');
+            if (localStorage.getItem('token')) {
+                const userName = currentUser ? currentUser.username : 'User';
+                div.innerHTML = `
+                    <span style="margin-right: 1rem; font-size: 14px;">Welcome, ${userName}!</span>
+                    <button class="auth-btn" onclick="logout()">Logout</button>
+                `;
+            } else {
+                div.innerHTML = '<button class="auth-btn" onclick="window.location.href=\'/login.html\'">Login / Register</button>';
+            }
+        }
+
+        // Event handlers
+        function filterByCategory(category) {
+            currentCategory = category;
+            
+            // Update active category
+            document.querySelectorAll('.category-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Update section title
+            document.getElementById('section-title').textContent = 
+                category === 'all' ? 'All Products' : category;
+            
             renderProducts();
         }
-    } catch (error) {
-        console.error('Failed to fetch products:', error);
-    }
-}
 
-async function fetchUserInfo() {
-    if (localStorage.getItem('token')) {
-        try {
-            const res = await fetch('/auth/profile', {
-                headers: { 'X-Auth-Token': localStorage.getItem('token') }
-            });
-            if (res.ok) {
-                currentUser = await res.json();
+        function searchProducts() {
+            const query = document.getElementById('search-input').value.trim();
+            if (!query) {
+                filterByCategory(currentCategory);
+                return;
             }
-        } catch (error) {
-            console.error('Failed to fetch user info:', error);
+            
+            fetch(`/products/search?query=${encodeURIComponent(query)}`)
+                .then(res => res.json())
+                .then(results => {
+                    products = results;
+                    currentCategory = 'all';
+                    document.getElementById('section-title').textContent = `Search Results for "${query}"`;
+                    renderProducts();
+                })
+                .catch(error => {
+                    console.error('Search failed:', error);
+                });
         }
-    }
-}
 
-async function fetchAddresses() {
-    if (!localStorage.getItem('token')) return;
-    try {
-        const res = await fetch('/addresses', {
-            headers: { 'X-Auth-Token': localStorage.getItem('token') }
-        });
-        if (res.ok) {
-            addresses = await res.json();
-            renderAddresses();
+        async function addToCart(productId) {
+            if (!localStorage.getItem('token')) {
+                alert('Please login to add items to cart.');
+                window.location.href = '/login.html';
+                return;
+            }
+            
+            try {
+                const res = await fetch(`/cart/add?productId=${productId}&quantity=1`, {
+                    method: 'POST',
+                    headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
+                });
+                
+                if (res.ok) {
+                    cart = await res.json();
+                    renderCart();
+                } else {
+                    alert('Failed to add item to cart.');
+                }
+            } catch (error) {
+                console.error('Error adding to cart:', error);
+                alert('Error adding item to cart.');
+            }
         }
-    } catch (error) {
-        console.error('Failed to fetch addresses:', error);
-    }
-}
 
-async function fetchCart() {
-    if (!localStorage.getItem('token')) return;
-    
-    try {
-        const res = await fetch('/cart', {
-            headers: { 'X-Auth-Token': localStorage.getItem('token') }
-        });
-        if (res.ok) {
-            cart = await res.json();
-            renderCart();
+        async function removeFromCart(productId) {
+            if (!localStorage.getItem('token')) {
+                alert('Please login to manage cart.');
+                return;
+            }
+            
+            try {
+                const res = await fetch(`/cart/remove?productId=${productId}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
+                });
+                
+                if (res.ok) {
+                    cart = await res.json();
+                    renderCart();
+                } else {
+                    alert('Failed to remove item from cart.');
+                }
+            } catch (error) {
+                console.error('Error removing from cart:', error);
+                alert('Error removing item from cart.');
+            }
         }
-    } catch (error) {
-        console.error('Failed to fetch cart:', error);
-    }
-}
 
-function renderAddresses() {
-    const addressSection = document.getElementById('address-section');
-    if (!addressSection) return;
-    
-    let html = '<label for="address-select">Deliver to:</label>';
-    html += '<select id="address-select"></select>';
-    html += '<button onclick="showAddAddress()">Add Address</button>';
-    addressSection.innerHTML = html;
-    
-    const select = document.getElementById('address-select');
-    if (addresses.length > 0) {
-        select.innerHTML = addresses.map(a => `<option value="${a.id}">${a.street}, ${a.city}</option>`).join('');
-        select.onchange = e => {
-            selectedAddressId = Number(e.target.value);
-            renderCart();
-        };
-        selectedAddressId = addresses[0].id;
-        select.value = selectedAddressId;
-    } else {
-        select.innerHTML = '<option value="">No addresses</option>';
-        selectedAddressId = null;
-    }
-    renderCart();
-}
+        function showAddAddress() {
+            if (!localStorage.getItem('token')) {
+                alert('Please login to add addresses.');
+                window.location.href = '/login.html';
+                return;
+            }
+            
+            const form = document.createElement('div');
+            form.style.cssText = 'margin-top: 1rem; padding: 1rem; border: 1px solid #ddd; border-radius: 8px; background: #f9f9f9;';
+            form.innerHTML = `
+                <h4 style="margin-bottom: 1rem; color: #232f3e;">Add New Address</h4>
+                <input name="street" placeholder="Street" required style="width: 100%; margin-bottom: 0.5rem; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;" />
+                <input name="city" placeholder="City" required style="width: 100%; margin-bottom: 0.5rem; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;" />
+                <input name="state" placeholder="State" required style="width: 100%; margin-bottom: 0.5rem; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;" />
+                <input name="zip" placeholder="ZIP" required style="width: 100%; margin-bottom: 0.5rem; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;" />
+                <input name="country" placeholder="Country" required style="width: 100%; margin-bottom: 0.5rem; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;" />
+                <button type="submit" style="background: #ff9900; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; margin-right: 0.5rem;">Save Address</button>
+                <button type="button" onclick="this.parentElement.remove()" style="background: #666; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer;">Cancel</button>
+            `;
+            
+            form.querySelector('button[type="submit"]').onclick = async () => {
+                const inputs = form.querySelectorAll('input');
+                const data = {};
+                inputs.forEach(input => data[input.name] = input.value);
+                
+                try {
+                    const res = await fetch('/addresses', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + localStorage.getItem('token') },
+                        body: JSON.stringify(data)
+                    });
+                    if (res.ok) {
+                        form.remove();
+                        await fetchAddresses();
+                    } else {
+                        alert('Failed to add address');
+                    }
+                } catch (error) {
+                    alert('Failed to add address');
+                }
+            };
+            
+            document.querySelector('.cart-sidebar').prepend(form);
+        }
 
-function showAddAddress() {
-    if (!localStorage.getItem('token')) {
-        alert('Please login to add addresses.');
-        window.location.href = '/login.html';
-        return;
-    }
-    
-    const form = document.createElement('form');
-    form.style.cssText = 'margin-top: 1rem; padding: 1rem; border: 1px solid #ddd; border-radius: 4px;';
-    form.innerHTML = `
-        <h4>Add New Address</h4>
-        <input name="street" placeholder="Street" required style="width: 100%; margin-bottom: 0.5rem; padding: 0.5rem;" />
-        <input name="city" placeholder="City" required style="width: 100%; margin-bottom: 0.5rem; padding: 0.5rem;" />
-        <input name="state" placeholder="State" required style="width: 100%; margin-bottom: 0.5rem; padding: 0.5rem;" />
-        <input name="zip" placeholder="ZIP" required style="width: 100%; margin-bottom: 0.5rem; padding: 0.5rem;" />
-        <input name="country" placeholder="Country" required style="width: 100%; margin-bottom: 0.5rem; padding: 0.5rem;" />
-        <button type="submit" style="background: #2874f0; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer;">Save Address</button>
-        <button type="button" onclick="this.parentElement.remove()" style="background: #666; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; margin-left: 0.5rem;">Cancel</button>
-    `;
-    
-    form.onsubmit = async e => {
-        e.preventDefault();
-        const data = Object.fromEntries(new FormData(form));
-        try {
-            const res = await fetch('/addresses', {
+        function checkout() {
+            if (!localStorage.getItem('token')) {
+                alert('Please login to place an order.');
+                window.location.href = '/login.html';
+                return;
+            }
+            
+            if (!selectedAddressId) {
+                alert('Please select or add an address.');
+                return;
+            }
+            
+            if (!cart || cart.items.length === 0) {
+                alert('Your cart is empty.');
+                return;
+            }
+            
+            const items = cart.items.map(item => ({ productId: item.productId, quantity: item.quantity }));
+            
+            fetch('/orders', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'X-Auth-Token': localStorage.getItem('token') },
-                body: JSON.stringify(data)
-            });
-            if (res.ok) {
-                form.remove();
-                await fetchAddresses();
-            } else {
-                alert('Failed to add address');
+                headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + localStorage.getItem('token') },
+                body: JSON.stringify({ items, addressId: selectedAddressId })
+            })
+            .then(async res => {
+                if (res.ok) {
+                    alert('Order placed successfully!');
+                    await fetch('/cart/clear', {
+                        method: 'DELETE',
+                        headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
+                    });
+                    await fetchCart();
+                } else {
+                    res.text().then(msg => alert('Order failed: ' + msg));
+                }
+            })
+            .catch(() => alert('Order failed: Network error'));
+        }
+
+        function logout() {
+            localStorage.removeItem('token');
+            currentUser = null;
+            selectedAddressId = null;
+            addresses = [];
+            cart = null;
+            window.location.reload();
+        }
+
+        function showAllProducts() {
+            currentCategory = 'all';
+            document.getElementById('section-title').textContent = 'All Products';
+            renderProducts();
+        }
+
+        function showDeals() {
+            document.getElementById('section-title').textContent = "Today's Deals";
+            // Filter products with discounts (you can implement this later)
+            renderProducts();
+        }
+
+        function showNewArrivals() {
+            document.getElementById('section-title').textContent = 'New Arrivals';
+            // Filter newest products (you can implement this later)
+            renderProducts();
+        }
+
+        function toggleCart() {
+            const cartSidebar = document.getElementById('cart-sidebar');
+            cartSidebar.style.display = cartSidebar.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // Search on Enter key
+        document.getElementById('search-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchProducts();
             }
-        } catch (error) {
-            alert('Failed to add address');
-        }
-    };
-    
-    document.querySelector('.cart').prepend(form);
-}
-
-function renderProducts() {
-    const productsDiv = document.getElementById('products');
-    productsDiv.innerHTML = '';
-    products.forEach(product => {
-        const div = document.createElement('div');
-        div.className = 'product';
-        div.innerHTML = `
-            <img src="${product.imageUrl}" alt="${product.name}">
-            <div class="product-name">${product.name}</div>
-            <div class="product-price">$${product.price.toFixed(2)}</div>
-            <button class="add-btn" onclick="addToCart(${product.id})">Add to Cart</button>
-        `;
-        productsDiv.appendChild(div);
-    });
-}
-
-async function addToCart(productId) {
-    if (!localStorage.getItem('token')) {
-        alert('Please login to add items to cart.');
-        window.location.href = '/login.html';
-        return;
-    }
-    
-    try {
-        const res = await fetch(`/cart/add?productId=${productId}&quantity=1`, {
-            method: 'POST',
-            headers: { 'X-Auth-Token': localStorage.getItem('token') }
         });
-        
-        if (res.ok) {
-            cart = await res.json();
-            renderCart();
-        } else {
-            alert('Failed to add item to cart.');
-        }
-    } catch (error) {
-        console.error('Error adding to cart:', error);
-        alert('Error adding item to cart.');
-    }
-}
 
-async function removeFromCart(productId) {
-    if (!localStorage.getItem('token')) {
-        alert('Please login to manage cart.');
-        return;
-    }
-    
-    try {
-        const res = await fetch(`/cart/remove?productId=${productId}`, {
-            method: 'DELETE',
-            headers: { 'X-Auth-Token': localStorage.getItem('token') }
-        });
-        
-        if (res.ok) {
-            cart = await res.json();
-            renderCart();
-        } else {
-            alert('Failed to remove item from cart.');
-        }
-    } catch (error) {
-        console.error('Error removing from cart:', error);
-        alert('Error removing item from cart.');
-    }
-}
-
-function renderCart() {
-    const cartList = document.getElementById('cart-list');
-    const cartItems = cart ? cart.items : [];
-    cartList.innerHTML = '';
-    
-    cartItems.forEach(item => {
-        const li = document.createElement('li');
-        li.innerHTML = `
-            <span class="item-name">${item.productName}</span>
-            <span class="item-qty">x${item.quantity}</span>
-            <span class="item-price">$${item.subtotal.toFixed(2)}</span>
-            <button class="remove-btn" onclick="removeFromCart(${item.productId})">&times;</button>
-        `;
-        cartList.appendChild(li);
-    });
-    
-    // Use server-calculated total
-    const total = cart ? cart.total : 0;
-    document.getElementById('cart-total').textContent = `Total: $${total.toFixed(2)}`;
-    
-    // Update checkout button state
-    const checkoutBtn = document.getElementById('checkout-btn');
-    const isLoggedIn = localStorage.getItem('token');
-    const hasItems = cartItems.length > 0;
-    const hasAddress = selectedAddressId && addresses.length > 0;
-    
-    if (!isLoggedIn) {
-        checkoutBtn.textContent = 'Login to Checkout';
-        checkoutBtn.disabled = false; // Always enabled for login
-        checkoutBtn.onclick = () => {
-            console.log('Redirecting to login page...');
-            window.location.href = '/login.html';
-        };
-    } else if (!hasItems) {
-        checkoutBtn.textContent = 'Add Items to Cart';
-        checkoutBtn.disabled = true;
-        checkoutBtn.onclick = null;
-    } else if (!hasAddress) {
-        checkoutBtn.textContent = 'Add Address to Checkout';
-        checkoutBtn.disabled = false;
-        checkoutBtn.onclick = showAddAddress;
-    } else {
-        checkoutBtn.textContent = 'Checkout';
-        checkoutBtn.disabled = false;
-        checkoutBtn.onclick = checkout;
-    }
-}
-
-function checkout() {
-    if (!localStorage.getItem('token')) {
-        alert('Please login to place an order.');
-        window.location.href = '/login.html';
-        return;
-    }
-    
-    if (!selectedAddressId) {
-        alert('Please select or add an address.');
-        return;
-    }
-    
-    if (!cart || cart.items.length === 0) {
-        alert('Your cart is empty.');
-        return;
-    }
-    
-    const items = cart.items.map(item => ({ productId: item.productId, quantity: item.quantity }));
-    
-    fetch('/orders', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'X-Auth-Token': localStorage.getItem('token') },
-        body: JSON.stringify({ items, addressId: selectedAddressId })
-    })
-    .then(async res => {
-        if (res.ok) {
-            alert('Order placed successfully!');
-            // Clear cart on the backend
-            await fetch('/cart/clear', {
-                method: 'DELETE',
-                headers: { 'X-Auth-Token': localStorage.getItem('token') }
-            });
-            // Refresh cart data
-            await fetchCart();
-        } else {
-            res.text().then(msg => alert('Order failed: ' + msg));
-        }
-    })
-    .catch(() => alert('Order failed: Network error'));
-}
-
-function renderAuthButtons() {
-    const div = document.getElementById('auth-buttons');
-    if (localStorage.getItem('token')) {
-        const userName = currentUser ? currentUser.username : 'User';
-        div.innerHTML = `
-            <span style="margin-right: 1rem;">Welcome, ${userName}!</span>
-            <button onclick="logout()">Logout</button>
-        `;
-        document.getElementById('my-orders-btn').style.display = 'inline-block';
-    } else {
-        div.innerHTML = '<button onclick="window.location.href=\'/login.html\'">Login / Register</button>';
-        document.getElementById('my-orders-btn').style.display = 'none';
-    }
-}
-
-function logout() {
-    localStorage.removeItem('token');
-    currentUser = null;
-    selectedAddressId = null;
-    addresses = [];
-    cart = null; // Clear cart on logout
-    window.location.reload();
-}
-
-// Start the application
-initializeApp();
-</script>
+        // Start the application
+        initializeApp();
+    </script>
 </body>
 </html> 
