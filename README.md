@@ -2,8 +2,10 @@
 
 A comprehensive e-commerce order processing system built with Spring Boot, featuring user authentication, shopping cart management, order processing, and real-time status tracking.
 
-Home page.png
-my orders.png
+<img width="1891" height="908" alt="Home page" src="https://github.com/user-attachments/assets/c83b398c-f16e-4db2-9f4e-c0946fbf2e19" />
+
+<img width="1842" height="906" alt="image" src="https://github.com/user-attachments/assets/ff56cc40-0c21-4e13-8972-c0b015152afa" />
+
 ## 🚀 Features
 
 - **User Management**: Registration, authentication, and profile management with JWT tokens
